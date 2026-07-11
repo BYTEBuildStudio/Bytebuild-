@@ -1,0 +1,6 @@
+{
+  "name": "ByteBuild",
+  "description": "Official premium digital agency website and portfolio for ByteBuild.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
