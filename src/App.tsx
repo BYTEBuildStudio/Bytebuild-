@@ -11,11 +11,15 @@ import { Process } from './components/Process';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Logo } from './components/Logo';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { TermsAndConditions } from './components/TermsAndConditions';
 import { Sparkles, Cpu } from 'lucide-react';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [scrollToTarget, setScrollToTarget] = useState<string | null>(null);
 
   useEffect(() => {
     // Scroll tracking for progress indicator
@@ -39,6 +43,88 @@ export default function App() {
       clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('pushstate-changed', handleLocationChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('pushstate-changed', handleLocationChange);
+    };
+  }, []);
+
+  // Handle post-navigation scrolling on home page
+  useEffect(() => {
+    if (!isLoading && currentPath === '/' && scrollToTarget) {
+      const timer = setTimeout(() => {
+        const element = document.getElementById(scrollToTarget);
+        if (element) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+        setScrollToTarget(null);
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, currentPath, scrollToTarget]);
+
+  const navigateTo = (path: string, targetSection?: string) => {
+    if (targetSection) {
+      setScrollToTarget(targetSection);
+    }
+    window.history.pushState({}, '', path);
+    window.dispatchEvent(new Event('pushstate-changed'));
+  };
+
+  const renderContent = () => {
+    if (currentPath === '/privacy-policy') {
+      return <PrivacyPolicy onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/terms-and-conditions') {
+      return <TermsAndConditions onNavigate={navigateTo} />;
+    }
+    // Default home page sections
+    return (
+      <>
+        {/* Section 1: Hero Segment */}
+        <Hero />
+
+        {/* Section 2: Trust scroller segment */}
+        <Trust />
+
+        {/* Section 3: Premium Services segment */}
+        <Services />
+
+        {/* Section 4: Why Chose Bytebuild segment */}
+        <WhyChoose />
+
+        {/* Section 5: Dynamic Portfolio builds segment */}
+        <Portfolio />
+
+        {/* Section 6: Our Process Blueprint timeline segment */}
+        <Process />
+
+        {/* Section 7: Technological Bento segment */}
+        <TechShowcase />
+
+        {/* Section 8: Split inquiries Contact segment */}
+        <Contact />
+      </>
+    );
+  };
 
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen relative font-sans antialiased overflow-x-hidden selection:bg-sky-500/30 selection:text-white" id="bytebuild-root">
@@ -130,39 +216,25 @@ export default function App() {
             id="bytebuild-main-content"
           >
             {/* Sticky Navigation */}
-            <Navbar />
+            <Navbar currentPath={currentPath} onNavigate={navigateTo} />
 
             {/* Structured Page Sections */}
             <main className="flex-1">
-              
-              {/* Section 1: Hero Segment */}
-              <Hero />
-
-              {/* Section 2: Trust scroller segment */}
-              <Trust />
-
-              {/* Section 3: Premium Services segment */}
-              <Services />
-
-              {/* Section 4: Why Chose Bytebuild segment */}
-              <WhyChoose />
-
-              {/* Section 5: Dynamic Portfolio builds segment */}
-              <Portfolio />
-
-              {/* Section 6: Our Process Blueprint timeline segment */}
-              <Process />
-
-              {/* Section 7: Technological Bento segment */}
-              <TechShowcase />
-
-              {/* Section 8: Split inquiries Contact segment */}
-              <Contact />
-
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentPath}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {renderContent()}
+                </motion.div>
+              </AnimatePresence>
             </main>
 
             {/* Footer */}
-            <Footer />
+            <Footer currentPath={currentPath} onNavigate={navigateTo} />
 
           </motion.div>
         )}

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Logo } from './Logo';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  currentPath: string;
+  onNavigate: (path: string, targetSection?: string) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -15,41 +20,49 @@ export const Navbar: React.FC = () => {
         setIsScrolled(false);
       }
 
-      // Section tracking
-      const sections = ['home', 'services', 'why-choose-us', 'portfolio', 'process', 'contact'];
-      const scrollPosition = window.scrollY + 120;
+      if (currentPath === '/') {
+        // Section tracking only on the home page
+        const sections = ['home', 'services', 'why-choose-us', 'portfolio', 'process', 'contact'];
+        const scrollPosition = window.scrollY + 120;
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-            break;
+        for (const section of sections) {
+          const el = document.getElementById(section);
+          if (el) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+            if (scrollPosition >= top && scrollPosition < top + height) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
+      } else {
+        setActiveSection('');
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentPath]);
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    if (currentPath !== '/') {
+      onNavigate('/', id);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 

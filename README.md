@@ -1,76 +1,20 @@
-🚀 ByteBuild
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-«Building fast, modern, and AI-powered digital experiences for ambitious businesses.»
+# Run and deploy your AI Studio app
 
-Welcome to the official ByteBuild website repository.
+This contains everything you need to run your app locally.
 
-ByteBuild is a digital studio focused on creating high-quality websites, web applications, AI-powered solutions, and modern digital experiences that help businesses grow online.
+View your app in AI Studio: https://ai.studio/apps/eea97a4f-8cb7-4f32-82d4-b0e9c8da62c9
 
----
+## Run Locally
 
-🌟 What We Do
+**Prerequisites:**  Node.js
 
-- 🌐 Business Websites
-- 🛒 E-commerce Stores
-- 📱 Responsive Web Applications
-- 🤖 AI Integrations & Automation
-- ⚡ Landing Pages
-- 🎨 Modern UI/UX Design
-- 🔍 SEO-Friendly Development
-- 🚀 Performance Optimization
 
----
-
-💼 Why Choose ByteBuild?
-
-- Modern, premium design
-- Mobile-first responsive layouts
-- Fast loading performance
-- Clean, scalable code
-- SEO-ready websites
-- AI-powered features
-- Client-focused development
-- Reliable support
-
----
-
-🛠 Tech Stack
-
-- HTML5
-- CSS3
-- JavaScript
-- React
-- Tailwind CSS
-- Node.js
-- Python
-- AI APIs
-- Git & GitHub
-
----
-
-📂 Featured Projects
-
-- FitFuel Nutrition – Modern nutrition and supplement store website.
-- GharKharch – Smart expense management web application.
-- EduFlow AI – AI-powered coaching management platform.
-- KhubKhao Restaurant – Elegant restaurant website with a modern dining experience.
-
-More projects are added regularly.
-
----
-
-🎯 Our Mission
-
-To help startups, creators, and businesses establish a powerful online presence through beautiful design, modern technology, and AI-driven innovation.
-
----
-
-🤝 Let's Build Something Amazing
-
-Whether you're launching a startup, growing a local business, or transforming an existing brand, ByteBuild is here to bring your vision to life.
-
----
-
-⭐ If you like our work, consider starring this repository and following our journey.
-
-Built with passion by ByteBuild.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
