@@ -1,20 +1,91 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 🚀 ByteBuild
 
-# Run and deploy your AI Studio app
+<p align="center">
+  <strong>Building modern websites, AI solutions, and digital experiences.</strong>
+</p>
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/eea97a4f-8cb7-4f32-82d4-b0e9c8da62c9
+## 🌟 About ByteBuild
 
-## Run Locally
+ByteBuild is a modern web development and AI-focused startup dedicated to creating fast, responsive, secure, and visually stunning digital products.
 
-**Prerequisites:**  Node.js
+Our mission is to help businesses establish a powerful online presence through innovative technology and clean design.
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 💼 Services
+
+- 🌐 Website Development
+- 📱 Responsive Web Design
+- ⚡ Landing Pages
+- 🎨 UI/UX Design
+- 🤖 AI Integration
+- 🔍 SEO Optimization
+- 🔒 Website Security
+- 🚀 Performance Optimization
+
+---
+
+## 🛠️ Tech Stack
+
+- HTML5
+- CSS3
+- JavaScript
+- React
+- Next.js
+- Git & GitHub
+- Vercel
+- AI Tools
+
+---
+
+## 🚀 Live Website
+
+🌍 https://bytebuild.co.in
+
+---
+
+## 📂 Project Structure
+
+```
+ByteBuild/
+├── index.html
+├── assets/
+├── css/
+├── js/
+├── images/
+└── README.md
+```
+
+---
+
+## 📈 Features
+
+- Modern UI
+- Mobile Responsive
+- Fast Loading
+- SEO Friendly
+- Secure
+- Clean Code
+- Professional Design
+
+---
+
+## 🤝 Connect
+
+Website:
+https://bytebuild.co.in
+
+GitHub:
+https://github.com/BYTEBuildStudio
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+### ⭐ If you like this project, don't forget to star the repository!
