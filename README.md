@@ -99,7 +99,7 @@ Contributions, ideas, and feedback are always welcome.
 
 🌐 Website: https://bytebuild.co.in
 
-📧 Email: hello@bytebuild.co.in
+📧 Email: thebytebuildofficial@gmail.com
 
 GitHub: https://github.com/BYTEBuildStudio
 
