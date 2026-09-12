@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { Trust } from './components/Trust';
-import { Services } from './components/Services';
-import { WhyChoose } from './components/WhyChoose';
-import { Portfolio } from './components/Portfolio';
-import { TechShowcase } from './components/TechShowcase';
-import { Process } from './components/Process';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
-import { Logo } from './components/Logo';
+import { Navbar } from './components/common/Navbar';
+import { Footer } from './components/common/Footer';
+import { HomePage } from './pages/HomePage';
+import { ServicesPage } from './pages/ServicesPage';
+import { ServiceDetailPage } from './pages/ServiceDetailPage';
+import { WorkPage } from './pages/WorkPage';
+import { ProjectDetailPage } from './pages/ProjectDetailPage';
+import { ProcessPage } from './pages/ProcessPage';
+import { AboutPage } from './pages/AboutPage';
+import { ContactPage } from './pages/ContactPage';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
+import { Logo } from './components/Logo';
 import { Sparkles, Cpu } from 'lucide-react';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
-  const [scrollToTarget, setScrollToTarget] = useState<string | null>(null);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname || '/');
 
   useEffect(() => {
-    // Scroll tracking for progress indicator
+    // Scroll tracking for top progress indicator
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (totalScroll > 0) {
@@ -33,10 +32,10 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Simulated premium asset compiler loader
+    // Fast, sleek initial loader
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500);
+    }, 700);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -46,7 +45,8 @@ export default function App() {
 
   useEffect(() => {
     const handleLocationChange = () => {
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(window.location.pathname || '/');
+      window.scrollTo({ top: 0, behavior: 'instant' });
     };
 
     window.addEventListener('popstate', handleLocationChange);
@@ -58,182 +58,176 @@ export default function App() {
     };
   }, []);
 
-  // Handle post-navigation scrolling on home page
+  // Dynamic SEO Page Title & Canonical Synchronization
   useEffect(() => {
-    if (!isLoading && currentPath === '/' && scrollToTarget) {
-      const timer = setTimeout(() => {
-        const element = document.getElementById(scrollToTarget);
-        if (element) {
-          const offset = 80;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = element.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - offset;
+    let pageTitle = 'ByteBuild | High-Performance Websites & AI Solutions';
+    let pageDescription = 'We design and build high-performance websites, web applications, and AI-powered solutions that help ambitious businesses grow.';
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-        setScrollToTarget(null);
-      }, 150);
-      return () => clearTimeout(timer);
+    if (currentPath === '/services') {
+      pageTitle = 'Services | ByteBuild — Digital Technology Agency';
+      pageDescription = 'Explore our engineering services: Web Development, AI & Automation, E-commerce, QR Menus, and custom software systems.';
+    } else if (currentPath === '/services/web-development') {
+      pageTitle = 'Web Development Services | ByteBuild';
+      pageDescription = 'High-performance bespoke websites and web applications built with modern React, TypeScript, and 95+ Core Web Vitals.';
+    } else if (currentPath === '/services/ai-automation') {
+      pageTitle = 'AI & Automation Services | ByteBuild';
+      pageDescription = 'Context-aware AI customer agents, automated lead qualification, and WhatsApp inquiry pipelines.';
+    } else if (currentPath === '/services/ecommerce') {
+      pageTitle = 'E-commerce & QR Menus | ByteBuild';
+      pageDescription = 'Frictionless storefronts and contactless tableside QR dining menus for modern retail and restaurants.';
+    } else if (currentPath === '/work') {
+      pageTitle = 'Selected Work & Case Studies | ByteBuild';
+      pageDescription = 'Explore real digital systems engineered for restaurants, fitness brands, academies, and financial applications.';
+    } else if (currentPath.startsWith('/work/')) {
+      const proj = currentPath.replace('/work/', '');
+      pageTitle = `${proj.toUpperCase()} Case Study | ByteBuild`;
+      pageDescription = 'In-depth engineering breakdown, interactive sandbox, and business outcomes.';
+    } else if (currentPath === '/process') {
+      pageTitle = 'Engineering Process & Roadmap | ByteBuild';
+      pageDescription = 'Our 7-phase transparent engineering process: Discover, Strategy, Design, Build, Test, Launch, and Improve.';
+    } else if (currentPath === '/about') {
+      pageTitle = 'About ByteBuild | Digital Technology Agency';
+      pageDescription = 'Technology should solve problems, not simply look impressive. Learn about our philosophy and standards.';
+    } else if (currentPath === '/contact') {
+      pageTitle = 'Start a Project | ByteBuild';
+      pageDescription = 'Tell us about your business, idea, or problem. Get a transparent quote and direct engineer consultation.';
+    } else if (currentPath === '/privacy-policy' || currentPath === '/privacy') {
+      pageTitle = 'Privacy Policy | ByteBuild';
+      pageDescription = 'Official privacy policy and data governance practices at ByteBuild.';
+    } else if (currentPath === '/terms-and-conditions' || currentPath === '/terms') {
+      pageTitle = 'Terms & Conditions | ByteBuild';
+      pageDescription = 'Official terms of service and client project agreements at ByteBuild.';
     }
-  }, [isLoading, currentPath, scrollToTarget]);
 
-  const navigateTo = (path: string, targetSection?: string) => {
-    if (targetSection) {
-      setScrollToTarget(targetSection);
+    document.title = pageTitle;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', pageDescription);
     }
+  }, [currentPath]);
+
+  const navigateTo = (path: string) => {
     window.history.pushState({}, '', path);
     window.dispatchEvent(new Event('pushstate-changed'));
   };
 
-  const renderContent = () => {
-    if (currentPath === '/privacy-policy') {
+  const renderCurrentView = () => {
+    if (currentPath === '/services') {
+      return <ServicesPage onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/services/web-development') {
+      return <ServiceDetailPage slug="web-development" onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/services/ai-automation') {
+      return <ServiceDetailPage slug="ai-automation" onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/services/ecommerce') {
+      return <ServiceDetailPage slug="ecommerce" onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/work') {
+      return <WorkPage onNavigate={navigateTo} />;
+    }
+    if (currentPath.startsWith('/work/')) {
+      const projectId = currentPath.replace('/work/', '').split('/')[0];
+      return <ProjectDetailPage projectId={projectId} onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/process') {
+      return <ProcessPage onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/about') {
+      return <AboutPage onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/contact') {
+      return <ContactPage onNavigate={navigateTo} />;
+    }
+    if (currentPath === '/privacy-policy' || currentPath === '/privacy') {
       return <PrivacyPolicy onNavigate={navigateTo} />;
     }
-    if (currentPath === '/terms-and-conditions') {
+    if (currentPath === '/terms-and-conditions' || currentPath === '/terms') {
       return <TermsAndConditions onNavigate={navigateTo} />;
     }
-    // Default home page sections
-    return (
-      <>
-        {/* Section 1: Hero Segment */}
-        <Hero />
-
-        {/* Section 2: Trust scroller segment */}
-        <Trust />
-
-        {/* Section 3: Premium Services segment */}
-        <Services />
-
-        {/* Section 4: Why Chose Bytebuild segment */}
-        <WhyChoose />
-
-        {/* Section 5: Dynamic Portfolio builds segment */}
-        <Portfolio />
-
-        {/* Section 6: Our Process Blueprint timeline segment */}
-        <Process />
-
-        {/* Section 7: Technological Bento segment */}
-        <TechShowcase />
-
-        {/* Section 8: Split inquiries Contact segment */}
-        <Contact />
-      </>
-    );
+    return <HomePage onNavigate={navigateTo} />;
   };
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen relative font-sans antialiased overflow-x-hidden selection:bg-sky-500/30 selection:text-white" id="bytebuild-root">
+    <div className="bg-[#05070c] text-white min-h-screen relative font-sans antialiased selection:bg-blue-500/30 selection:text-white" id="bytebuild-root">
       
       {/* Scroll Progress indicator at the very top */}
       <div 
-        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 z-55 transition-all duration-100"
+        className="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 z-50 transition-all duration-100"
         style={{ width: `${scrollProgress}%` }}
         id="scroll-progress-line"
       />
 
       <AnimatePresence mode="wait">
         {isLoading ? (
-          // LUXURIOUS FULL-SCREEN INITIAL PRELOADER
+          /* Sleek Agency Splash Loader */
           <motion.div
             key="preloader"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-60 bg-slate-950 flex flex-col items-center justify-center p-4"
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-50 bg-[#05070c] flex flex-col items-center justify-center p-4"
             id="applet-preloader"
           >
-            {/* Elegant high-contrast space circles background */}
-            <div className="absolute w-96 h-96 bg-[radial-gradient(circle,rgba(14,165,233,0.08)_0%,transparent_60%)] animate-pulse pointer-events-none" />
-            
-            <div className="relative space-y-6 flex flex-col items-center max-w-sm w-full text-center">
-              {/* Spinning geometric glowing circle around logo */}
-              <div className="relative p-6 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-2 border-dashed border-sky-500/10 animate-spin [animation-duration:15s]" />
-                <div className="absolute inset-2 rounded-full border border-indigo-500/15 animate-spin [animation-duration:8s] [animation-direction:reverse]" />
-                
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, type: "spring" }}
-                >
-                  <Logo size={80} withText={false} />
-                </motion.div>
-              </div>
+            <div className="relative space-y-5 flex flex-col items-center max-w-xs w-full text-center">
+              <motion.div
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Logo size={64} withText={false} />
+              </motion.div>
 
-              {/* Title Assembly */}
-              <div className="space-y-2">
-                <motion.h2 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="font-display font-black text-2xl tracking-wider text-white"
-                >
-                  BYTE<span className="text-sky-400">BUILD</span>
-                </motion.h2>
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="text-[10px] font-mono tracking-[0.3em] uppercase text-slate-500 flex items-center justify-center gap-1.5"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-sky-400 animate-pulse" /> WE BUILD. YOU GROW.
-                </motion.p>
+              <div className="space-y-1.5">
+                <h2 className="font-display font-extrabold text-xl tracking-wider text-white">
+                  BYTE<span className="text-blue-400">BUILD</span>
+                </h2>
+                <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-gray-400 flex items-center justify-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-blue-400 animate-pulse" /> DIGITAL TECHNOLOGY AGENCY
+                </p>
               </div>
 
               {/* Progress Bar container */}
-              <div className="w-48 h-[2px] bg-slate-900 rounded-full overflow-hidden relative">
+              <div className="w-36 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
                 <motion.div 
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                  className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full"
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full"
                 />
               </div>
-
-              <motion.span 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="text-[9px] font-mono tracking-widest text-slate-500 uppercase flex items-center gap-1.5"
-              >
-                <Cpu className="w-3.5 h-3.5 text-slate-700 animate-spin" /> Compiling Brand Assets...
-              </motion.span>
             </div>
           </motion.div>
         ) : (
-          // MAIN PREMIUM WEBSITE CONTAINER
+          /* Main Agency Shell */
           <motion.div
             key="main-app"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.4 }}
             className="flex flex-col min-h-screen"
             id="bytebuild-main-content"
           >
-            {/* Sticky Navigation */}
+            {/* Global Sticky Navigation */}
             <Navbar currentPath={currentPath} onNavigate={navigateTo} />
 
-            {/* Structured Page Sections */}
-            <main className="flex-1">
+            {/* Structured Page View */}
+            <main className="flex-1" id="page-view-container">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentPath}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.4 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  {renderContent()}
+                  {renderCurrentView()}
                 </motion.div>
               </AnimatePresence>
             </main>
 
-            {/* Footer */}
+            {/* Global Comprehensive Footer */}
             <Footer currentPath={currentPath} onNavigate={navigateTo} />
 
           </motion.div>

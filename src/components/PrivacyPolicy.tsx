@@ -142,7 +142,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onNavigate }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={() => onNavigate('/')}
+              onClick={() => onNavigate('/contact')}
               className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-mono text-xs font-bold py-2.5 px-4 rounded-xl cursor-pointer transition-all duration-300"
             >
               Go to Contact Form
