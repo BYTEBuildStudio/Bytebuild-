@@ -54,16 +54,20 @@ export const CTASection: React.FC<CTASectionProps> = ({
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => onNavigate('/contact')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-xl shadow-blue-500/20 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all cursor-pointer"
               id="cta-start-project-btn"
             >
               <span>Start Your Project</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </motion.button>
 
-            <a
+            <motion.a
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               href="https://wa.me/916367207775"
               target="_blank"
               rel="noreferrer"
@@ -71,7 +75,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
             >
               <MessageCircle className="w-4 h-4 text-emerald-400" />
               <span>Chat on WhatsApp</span>
-            </a>
+            </motion.a>
           </div>
 
           <div className="pt-6 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-gray-400 font-sans">

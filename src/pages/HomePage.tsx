@@ -26,6 +26,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { HeroVisual } from '../components/home/HeroVisual';
+import { Card3D } from '../components/common/Card3D';
 import { PROJECTS } from '../data/projectsData';
 import { CTASection } from '../components/common/CTASection';
 
@@ -324,31 +325,41 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  onClick={() => onNavigate(item.path)}
-                  className={`p-8 rounded-2xl bg-gradient-to-b ${item.accent} border border-white/[0.08] hover:border-blue-500/30 transition-all duration-300 cursor-pointer group relative overflow-hidden shadow-lg`}
+                  className="h-full"
                 >
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="font-mono text-xs text-gray-400 tracking-wider">
-                      {item.number}
-                    </span>
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform">
-                      <Icon className="w-5 h-5" />
+                  <Card3D 
+                    onClick={() => onNavigate(item.path)}
+                    maxTilt={7}
+                    depth={18}
+                    className="h-full"
+                    id={`capability-card-${item.number}`}
+                  >
+                    <div className={`p-8 rounded-2xl bg-gradient-to-b ${item.accent} border border-white/[0.08] hover:border-blue-500/30 transition-colors duration-300 group relative overflow-hidden shadow-lg h-full flex flex-col justify-between`}>
+                      <div>
+                        <div className="flex items-center justify-between mb-8">
+                          <span className="font-mono text-xs text-gray-400 tracking-wider">
+                            {item.number}
+                          </span>
+                          <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform">
+                            <Icon className="w-5 h-5" />
+                          </div>
+                        </div>
+
+                        <h3 className="text-2xl font-display font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                          {item.title}
+                        </h3>
+
+                        <p className="text-sm text-gray-400 leading-relaxed font-sans mb-6">
+                          {item.description}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-xs font-mono font-semibold text-gray-300 group-hover:text-white transition-colors">
+                        <span>Explore Solutions</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+                      </div>
                     </div>
-                  </div>
-
-                  <h3 className="text-2xl font-display font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-400 leading-relaxed font-sans mb-6">
-                    {item.description}
-                  </p>
-
-                  <div className="flex items-center gap-2 text-xs font-mono font-semibold text-gray-300 group-hover:text-white transition-colors">
-                    <span>Explore Solutions</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
-                  </div>
+                  </Card3D>
                 </motion.div>
               );
             })}
@@ -384,25 +395,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.45, delay: idx * 0.07 }}
-                  whileHover={{ y: -5, transition: { duration: 0.25 } }}
-                  className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.07] hover:border-purple-500/30 transition-all space-y-4 text-left shadow-sm"
+                  className="h-full"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-gray-400">
-                      {r.num}
-                    </span>
-                    <div className={`p-2.5 rounded-xl bg-white/5 ${r.color}`}>
-                      <Icon className="w-4 h-4" />
+                  <Card3D maxTilt={6} depth={12} className="h-full" id={`why-card-${r.num}`}>
+                    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.07] hover:border-purple-500/30 transition-colors space-y-4 text-left shadow-sm h-full flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="font-mono text-xs font-bold text-gray-400">
+                            {r.num}
+                          </span>
+                          <div className={`p-2.5 rounded-xl bg-white/5 ${r.color}`}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+                        </div>
+
+                        <h3 className="text-lg font-display font-bold text-white mb-2">
+                          {r.title}
+                        </h3>
+
+                        <p className="text-sm text-gray-400 leading-relaxed font-sans">
+                          {r.description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-
-                  <h3 className="text-lg font-display font-bold text-white">
-                    {r.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-400 leading-relaxed font-sans">
-                    {r.description}
-                  </p>
+                  </Card3D>
                 </motion.div>
               );
             })}
@@ -446,61 +462,64 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className="group rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-blue-500/30 transition-all overflow-hidden flex flex-col justify-between shadow-xl"
+                className="h-full"
               >
-                {/* Visual Header */}
-                <div className="p-6 sm:p-8 space-y-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className={`text-[10px] font-mono tracking-widest uppercase px-3 py-1 rounded-full border ${project.badgeColor}`}>
-                      {project.categoryLabel}
-                    </span>
-                    <span className="text-xs font-mono text-gray-400">
-                      {project.duration}
-                    </span>
-                  </div>
+                <Card3D maxTilt={6} depth={16} className="h-full" id={`project-card-3d-${project.id}`}>
+                  <div className="group rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-blue-500/30 transition-colors overflow-hidden flex flex-col justify-between shadow-xl h-full">
+                    {/* Visual Header */}
+                    <div className="p-6 sm:p-8 space-y-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className={`text-[10px] font-mono tracking-widest uppercase px-3 py-1 rounded-full border ${project.badgeColor}`}>
+                          {project.categoryLabel}
+                        </span>
+                        <span className="text-xs font-mono text-gray-400">
+                          {project.duration}
+                        </span>
+                      </div>
 
-                  <h3 className="text-2xl font-display font-bold text-white group-hover:text-blue-400 transition-colors">
-                    {project.title}
-                  </h3>
+                      <h3 className="text-2xl font-display font-bold text-white group-hover:text-blue-400 transition-colors">
+                        {project.title}
+                      </h3>
 
-                  <p className="text-sm text-gray-400 leading-relaxed font-sans line-clamp-3">
-                    {project.description}
-                  </p>
+                      <p className="text-sm text-gray-400 leading-relaxed font-sans line-clamp-3">
+                        {project.description}
+                      </p>
 
-                  {/* Tech stack badges */}
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {project.techStack.map((tech, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06] text-[11px] font-mono text-gray-300"
+                      {/* Tech stack badges */}
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {project.techStack.map((tech, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06] text-[11px] font-mono text-gray-300"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Actions Footer */}
+                    <div className="p-6 sm:px-8 sm:py-5 bg-white/[0.01] border-t border-white/[0.06] flex items-center justify-between">
+                      <button
+                        onClick={() => onNavigate(`/work/${project.id}`)}
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-white group-hover:text-blue-400 transition-colors cursor-pointer"
                       >
-                        {tech}
-                      </span>
-                    ))}
+                        <span>View Case Study</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+
+                      <a
+                        href={project.liveDemoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors"
+                      >
+                        <span>Live Demo</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
                   </div>
-                </div>
-
-                {/* Actions Footer */}
-                <div className="p-6 sm:px-8 sm:py-5 bg-white/[0.01] border-t border-white/[0.06] flex items-center justify-between">
-                  <button
-                    onClick={() => onNavigate(`/work/${project.id}`)}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-white group-hover:text-blue-400 transition-colors cursor-pointer"
-                  >
-                    <span>View Case Study</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
-
-                  <a
-                    href={project.liveDemoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors"
-                  >
-                    <span>Live Demo</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                </div>
+                </Card3D>
               </motion.div>
             ))}
           </div>

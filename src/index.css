@@ -218,3 +218,12 @@ html.light #hero-visual-card {
   filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.08));
 }
 
+html.light #floating-tooltip-pill {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+html.light #floating-tooltip-pill * {
+  color: #f8fafc !important;
+}
+
